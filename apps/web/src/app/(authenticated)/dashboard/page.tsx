@@ -25,7 +25,7 @@ export default function MyDashboardPage() {
   const [userAttemps, setUserAttemps] = useState([])
   const [totalQuestion, setTotalQuestion] = useState([])
   const [userPostQuestion, setUserPostQuestion] = useState([])
-  // const [questionNames, setQuestionNames] = useState({})
+  const [questionLevel, setQuestionLevel] = useState([])
 
   useEffect(() => {
     async function challengedata() {
@@ -33,8 +33,10 @@ export default function MyDashboardPage() {
         const userChallenge = await Api.Challenge.findManyByUserId(userId)
         const t_Question = await Api.Challenge.findMany()
         const userattemps = await Api.Attempt.findManyByUserId(userId)
+        const questionByLevel = await Api.Challenge.findManyByUserId(userId);
         // console.log(t_Question)
-        console.log(userattemps)
+        console.log(userChallenge)
+        setQuestionLevel(questionByLevel);
         setUserPostQuestion(userChallenge)
         setTotalQuestion(t_Question)
         setUserAttemps(userattemps)
@@ -46,7 +48,7 @@ export default function MyDashboardPage() {
   }, [userId])
 
   // divide question by level
-  const questionLevel = userAttemps.reduce(
+  const level = questionLevel.reduce(
     (result: any, currentQuestion: any) => {
       ;(result[currentQuestion['difficultyLevel']] =
         result[currentQuestion['difficultyLevel']] || []).push(currentQuestion)
@@ -54,6 +56,7 @@ export default function MyDashboardPage() {
     },
     {},
   )
+
   // console.log(questionLevel['undefined'])
   const Delete = async values => {
     try {
@@ -67,13 +70,13 @@ export default function MyDashboardPage() {
 
   const data = [
     {
-      '2020-04-20': { level: 2 },
+      '2024-03-21': { level: 2 },
     },
     {
-      '2023-07-08': { level: 1 },
+      '2024-03-20': { level: 1 },
     },
     {
-      '2023-07-09': { level: 4, data: {} },
+      '2024-03-21': { level: 4, data: {} },
     },
     {
       '2023-03-31': {
@@ -130,7 +133,7 @@ export default function MyDashboardPage() {
             )}
             type="circle"
             strokeColor="puple"
-            width={230}
+
             trailColor="gray"
             strokeLinecap="butt"
           />
@@ -141,26 +144,16 @@ export default function MyDashboardPage() {
         <div className="w-full md:w-1/2">
           <div className="mb-4">
             <Progress
-              percent={Math.round(
-                ((questionLevel['Easy'] ? questionLevel['Easy'].length : 0) /
-                  userAttemps.length) *
-                  100,
-              )}
+              percent={50}
               strokeColor={'green'}
               style={{ marginRight: '10px' }}
-              width={200}
+
             />
             <Typography.Text className="text-green-400">Easy</Typography.Text>
           </div>
           <div className="mb-4">
             <Progress
-              percent={Math.round(
-                ((questionLevel['Medium']
-                  ? questionLevel['Medium'].length
-                  : 0) /
-                  userAttemps.length) *
-                  100,
-              )}
+              percent={30}
               strokeColor={'yellow'}
               style={{ marginRight: '10px' }}
             />
@@ -170,14 +163,10 @@ export default function MyDashboardPage() {
           </div>
           <div className="">
             <Progress
-              percent={Math.round(
-                ((questionLevel['Hard'] ? questionLevel['Hard'].length : 0) /
-                  userAttemps.length) *
-                  100,
-              )}
+              percent={15}
               strokeColor={'red'}
               style={{ marginRight: '10px' }}
-              width={200}
+
             />
             <Typography.Text className="text-red-400">Hard</Typography.Text>
           </div>

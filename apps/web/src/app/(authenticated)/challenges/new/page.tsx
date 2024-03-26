@@ -34,7 +34,7 @@ export default function PostChallengePage() {
       is this a valid coding question answer this in Yes or No`
       const res = await Api.Ai.chat(prompt)
       console.log(res)
-      if (res != 'yes') {
+      if (res !== 'Yes') {
         throw new Error('Not a valid question')
       }
       await Api.Challenge.createOneByUserId(userId, {
@@ -48,6 +48,7 @@ export default function PostChallengePage() {
       router.push('/challenges')
     } catch (error) {
       enqueueSnackbar('Failed to submit challenge', { variant: 'error' })
+      console.log(error);
     }
   }
 
@@ -78,7 +79,7 @@ export default function PostChallengePage() {
                 name="name"
                 label="Challenge Name"
                 className=""
-                rules={[{ required: false }]}
+                rules={[{ required: true }]}
               >
                 <Input style={{ fontSize: '1rem' }} />
               </Form.Item>
@@ -90,7 +91,7 @@ export default function PostChallengePage() {
               <Form.Item
                 name="sampleInput"
                 label="Sample Input"
-                rules={[{ required: false }]}
+                rules={[{ required: true }]}
               >
                 <Input style={{ fontSize: '1rem' }} />
               </Form.Item>
@@ -98,7 +99,7 @@ export default function PostChallengePage() {
               <Form.Item
                 name="sampleOutput"
                 label="Sample Output"
-                rules={[{ required: false }]}
+                rules={[{ required: true }]}
               >
                 <Input style={{ fontSize: '1rem' }} />
               </Form.Item>
@@ -106,7 +107,7 @@ export default function PostChallengePage() {
               <Form.Item
                 name="difficultyLevel"
                 label="Difficulty Level"
-                rules={[{ required: false }]}
+                rules={[{ required: true }]}
               >
                 <Select style={{ fontSize: '1rem' }}>
                   <Option value="Easy">Easy</Option>
@@ -118,7 +119,7 @@ export default function PostChallengePage() {
               <Form.Item
                 name="programmingLanguage"
                 label="Programming Language"
-                rules={[{ required: false }]}
+                rules={[{ required: true }]}
               >
                 <Input style={{ fontSize: '1rem' }} />
               </Form.Item>

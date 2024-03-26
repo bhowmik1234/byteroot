@@ -90,6 +90,7 @@ export default function LoginPage() {
                 <GoogleButton
                   onSuccess={handleGoogleSuccess}
                   onError={onError}
+                  
                 />
               )}
 
